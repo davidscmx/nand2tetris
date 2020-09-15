@@ -42,5 +42,32 @@ CHIP ALU {
         ng; // 1 if (out < 0),  0 otherwise
 
     PARTS:
-   // Put you code here:
+    // Zero and negate x
+    OneBitExpander(in=zx, out=zx16);
+    OneBitExpander(in=nx, out=nx16);
+    Not16(in=zx16, out=notzx16);
+    And16(a=x, b=notzx16, out=xand);
+    Xor16(a=xand,b=nx16,out=finalx);
+    // Zero and negate y
+    OneBitExpander(in=zy, out=zy16);
+    OneBitExpander(in=ny, out=ny16);
+    Not16(in=zy16, out=notzy16);
+    And16(a=y, b=notzy16, out=yand);
+    Xor16(a=yand,b=ny16,out=finaly);
+    //
+    Add16(a=finalx, b=finaly, out=addout);
+    And16(a=finalx, b=finaly, out=andout);
+    OneBitExpander(in=f, out=f16);
+    And16(a=addout, b=f16, out=outf1);
+    Not16(in=f16, out=notf16);
+    And16(a=andout, b=notf16, out=outf2);
+    Or16(a=outf1, b=outf2, out=outf3);
+    OneBitExpander(in=no, out=no16);
+    Xor16(a=outf3, b=no16, out=outtmp);
+    // zg and ng
+    IsItNegative16(in=outtmp, out=ng);
+    Or16Way(in=outtmp, out=notzr);
+    Not(in=notzr, out=zr);
+    And16(a=outtmp, b=true, out=out);
+
 }
