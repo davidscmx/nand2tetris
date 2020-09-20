@@ -16,5 +16,21 @@ CHIP PC {
     OUT out[16];
 
     PARTS:
-    // Put your code here:
+    OneBitExpander(in=reset, out=reset16);
+    OneBitExpander(in=inc, out=inc16);
+
+    Not16(in=reset16, out=notreset16);
+    And16(a=notreset16, b=in, out=tmp0);
+    Duplicator(in=tmp0, out=tmp01, out1=tmp02);
+    Duplicator(in=inc16, out=inc160, out1=inc161);
+
+    And16(a=tmp01, b=inc160, out=tmp1);
+    Inc16(in=tmp1, out=tmp2);
+    
+    Not16(in=inc161, out=notinc16);
+    And16(a=tmp02, b=notinc16, out=tmp2);
+
+    //Or16(a=tmp1, b=tmp2, out=tmp3);
+
+    //Register(in=tmp3,load=load, out=out);
 }
