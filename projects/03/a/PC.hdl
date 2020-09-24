@@ -16,21 +16,14 @@ CHIP PC {
     OUT out[16];
 
     PARTS:
+    DMux16(in=outReg, sel=inc, a=notInc, b=beforeInc);
+    Inc16(in=beforeInc,out=afterInc);
+    Mux16(a=notInc, b=afterInc, sel=inc, out=tmp1);
+    Mux16(a=tmp1, b=in, sel=load, out=tmp2);    
     OneBitExpander(in=reset, out=reset16);
-    OneBitExpander(in=inc, out=inc16);
-
     Not16(in=reset16, out=notreset16);
-    And16(a=notreset16, b=in, out=tmp0);
-    Duplicator(in=tmp0, out=tmp01, out1=tmp02);
-    Duplicator(in=inc16, out=inc160, out1=inc161);
-
-    And16(a=tmp01, b=inc160, out=tmp1);
-    Inc16(in=tmp1, out=tmp2);
-    
-    Not16(in=inc161, out=notinc16);
-    And16(a=tmp02, b=notinc16, out=tmp2);
-
-    //Or16(a=tmp1, b=tmp2, out=tmp3);
-
-    //Register(in=tmp3,load=load, out=out);
+    And16(a=notreset16,b=tmp2, out=toRegister);
+    Or3Way(a=load,b=inc,c=reset, out=orOut);
+    Register(in=toRegister, load=orOut, out=outReg);
+    Mux16(a=outReg, b=false, sel=false, out=out);    
 }

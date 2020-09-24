@@ -1,0 +1,13 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/03/a/PC.hdl
+
+CHIP Or3Way {
+    IN a,b,c;
+    OUT out;
+
+    PARTS:
+    Or(a=a, b=b, out=tmp0);
+    Or(a=tmp0, b=c, out=out);    
+}

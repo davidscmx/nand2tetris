@@ -1,0 +1,11 @@
+
+
+
+CHIP Duplicator {
+    IN in[16];
+    OUT out[16],out1[16];
+
+    PARTS:
+    And16(a=in,b=true,out=out);
+    And16(a=in,b=true,out=out1);
+}

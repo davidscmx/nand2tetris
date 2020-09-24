@@ -1,0 +1,20 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/01/Mux16.hdl
+
+/**
+ * 16-bit demultiplexor: 
+ */
+
+CHIP DMux16 {
+    IN in[16],sel;
+    OUT a[16],b[16];
+
+    PARTS:
+    DMux(in=true, sel=sel, a=aout, b=bout);
+    OneBitExpander(in=aout, out=aout16);
+    OneBitExpander(in=bout, out=bout16);
+    And16(a=aout16,b=in, out=a);
+    And16(a=bout16,b=in, out=b);
+}
