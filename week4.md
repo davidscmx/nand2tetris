@@ -78,3 +78,48 @@ How can we tell the hardware which instrution to execute next.
 Unconditional jumps: for loop
 Conditional jumps: if statement
 
+## Hack Language Specification
+
+There are two ways to express the same semantics:
+
+-Symbolic and/or binary
+Need to convert symbolic language -> binary. Assembler!
+
+The A-instruction: symbolic and binary syntax.
+
+Symbolic syntax:
+
+
+Binary syntax:
+For an A-Instruction:
+0value - Zero tell the computer this is an A-instruction
+       - The initial zero is called the op-code or operation code.
+
+
+### The C-Instruction: symbolic and binary syntax:
+    dest= comp ; jump
+
+1 1 1 a c1 c2 c3 c4 c5 c6 d1 d2 d3 j1 j2 j3
+ 
+Binary Syntax: First bit: 1 is the C-instruction op-code
+Bits 2 and 3 are not used.
+Next seven bits: computation I want to achieve
+Next three bits: represent the destination
+Last three bits: represent the jump condition.
+
+![Alt text](./pictures/the-c-instruction.png "The C-Instruction")
+
+## Input/Output
+
+Peripheral I/O devices
+- Keyboard and screen.
+- Used to comunicate with the user. Get and display data to user.
+
+High level approach -> libraries
+Low level approach -> bits
+
+### Hack Computer: Output
+
+- A dedicated, designated region to display the screen: Screen memory map
+- The physical display is continously refreshed from the memory map
+- Output is effected by writing code that manipulates the screen memory map
