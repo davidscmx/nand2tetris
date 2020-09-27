@@ -5,9 +5,9 @@
 - Machine language is the most important interface in the world.
 - Machine language specifies exactly what the hardware can do for us. 
 
-Cost-performane tradeoff
+Cost-performane tradeoff:
 - The more sophisticated operations and types the more expensive the
-hardware get.
+hardware gets
 
 ## Machine Operations
 
@@ -41,70 +41,71 @@ Memory Hierachy
 - Quick to address
 - Central part of the machine language
 
-Example:
-Add R1, R2
+Example: ```Add R1, R2```
 
-Address register:
-Store R1, @A
+Address register: ```Store R1, @A```
 
-Addressing Modes: How dow we decide which data to work upon? How to tell
-the CPU on which data to apply an operation say the add operation?
+Addressing Modes: 
 
-- Register
-Add R1,R2
+How dow we decide which data to work upon? 
 
-- Direct
-Add R1, M[200]
+How to tell the CPU on which data to apply an operation say the add operation?
 
-- Indirect
-Add R1, index
+1. Register -> ```Add R1,R2```
 
-- Immediate
-Add 73, R1
+1. Direct -> ```Add R1, M[200]```
+
+1. Indirect -> ```Add R1, index```
+
+1. Immediate -> ```Add 73, R1```
 
 ## Input/Output
 
 - Many types of input and output
   Keyboard, mouse, camera, sensors...
 
-CPU needs some protocol to talk to them -> drivers knows this protocols
+CPU needs some protocol to talk to them -> drivers knows these protocols
 
 One general methods to do this: memory mapping
+
 Connect the registers that control the devices as a part of the memory.
 Gives us access to input/output as if we were accesing the memory itself.
 
 ## Flow control
-How can we tell the hardware which instrution to execute next.
-Unconditional jumps: for loop
-Conditional jumps: if statement
+How can we tell the hardware which instrution to execute next?
+
+- Unconditional jumps: for loop
+- Conditional jumps: if statement
 
 ## Hack Language Specification
 
 There are two ways to express the same semantics:
 
--Symbolic and/or binary
-Need to convert symbolic language -> binary. Assembler!
+- Symbolic and/or binary
+- Need to convert symbolic language -> binary. Assembler!
 
-The A-instruction: symbolic and binary syntax.
+### The A-instruction: symbolic and binary syntax.
 
 Symbolic syntax:
 
-
 Binary syntax:
-For an A-Instruction:
-0value - Zero tell the computer this is an A-instruction
-       - The initial zero is called the op-code or operation code.
-
+For an A-Instruction looks like this _0-**value**_: 
+  
+  - Zero tell the computer this is an A-instruction
+  - The initial zero is called the op-code or operation code.
 
 ### The C-Instruction: symbolic and binary syntax:
     dest= comp ; jump
 
+```
 1 1 1 a c1 c2 c3 c4 c5 c6 d1 d2 d3 j1 j2 j3
- 
-Binary Syntax: First bit: 1 is the C-instruction op-code
-Bits 2 and 3 are not used.
-Next seven bits: computation I want to achieve
-Next three bits: represent the destination
+```
+
+Binary Syntax: 
+- First bit: 1 is the C-instruction op-code
+- Bits 2 and 3 are not used.
+- Next seven bits: computation I want to achieve
+- Next three bits: represent the destination
 Last three bits: represent the jump condition.
 
 ![Alt text](./pictures/the-c-instruction.png "The C-Instruction")
@@ -116,6 +117,7 @@ Peripheral I/O devices
 - Used to comunicate with the user. Get and display data to user.
 
 High level approach -> libraries
+
 Low level approach -> bits
 
 ### Hack Computer: Output
