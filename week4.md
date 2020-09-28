@@ -125,3 +125,52 @@ Low level approach -> bits
 - A dedicated, designated region to display the screen: Screen memory map
 - The physical display is continously refreshed from the memory map
 - Output is effected by writing code that manipulates the screen memory map
+
+
+## Input: Keyboard Memory Map
+
+The physical keyboard is associated with a keyboard memory map. 
+
+When a key is pressed on the keyboard, the key's scan conde appeas in the keyboard memory map.
+
+In the Hack computer: probe the contents of RAM[24576]
+
+
+## Hack Assembly Instructions
+
+*A-Instruction* - "Address" instruction
+
+`@value` // A = value - where value is either a constant or a symbol referring to such constant
+
+*C-Instruction* - "Compute" instruction
+
+ - dest = comp; jump -> both dest and jump are optional
+
+ - comp: `0, 1, -1, ... D+A, D-A, A-D ...`
+ - dest: `null, M, D, ..., AD, AMD`
+ - jump: `null, JGT, JEQ, JGE...`
+
+Before we can exectute anything, these symbols needs to be translated to binary code.
+
+Working with registers and memory: the bread and butter of low-level programming
+
+1. D: data register
+1. A: address/data register
+1. M: the currently selected memory register -> M = RAM[A]
+
+#### A Hack program example: Add two numbers
+
+// Program: Add2.asm
+// Computes: RAM[2] = RAM[0] + RAM[1]
+// Usage: put values in RAM[0], RAM[1]
+
+How to terminate a program properly?
+- Add infinite loop
+#### Build-in Symbols
+
+Symbols: R0-R12 value 0-12
+
+SCREEN - 16384
+KBD - 24576
+
+
