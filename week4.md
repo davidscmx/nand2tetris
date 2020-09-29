@@ -84,6 +84,8 @@ There are two ways to express the same semantics:
 - Symbolic and/or binary
 - Need to convert symbolic language -> binary. Assembler!
 
+![Alt text](./pictures/hack_registers.png "The Hack Registers")
+
 ### The A-instruction: symbolic and binary syntax.
 
 Symbolic syntax:
@@ -173,4 +175,14 @@ Symbols: R0-R12 value 0-12
 SCREEN - 16384
 KBD - 24576
 
+### Branching
+- Conditional loops.
 
+In machine language only one: goto. 
+
+
+### Variables
+
+### Iteration
+
+- Example compute `1 + 2 + ... + n`
