@@ -1,0 +1,14 @@
+CHIP Or8Way {
+
+                                        
+    IN  a,b,c,d,e,f,g,h;               
+    OUT out;
+    PARTS:
+        Or(a=a, b=b, out=tmp0);
+        Or(a=c, b=tmp0, out=tmp1);
+        Or(a=d, b=tmp1, out=tmp2);
+        Or(a=e, b=tmp2, out=tmp3);
+        Or(a=f, b=tmp3, out=tmp4);
+        Or(a=g, b=tmp4, out=tmp5); 
+        Or(a=h, b=tmp5, out=out); 
+}

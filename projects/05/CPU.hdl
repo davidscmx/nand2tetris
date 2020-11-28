@@ -38,6 +38,50 @@ CHIP CPU {
         addressM[15],    // Address in data memory (of M)
         pc[15];          // address of next instruction
 
+    // Instruction code: IXXACCCCCCDDDJJJ
+    // writeM bit: bit 12
     PARTS:
-    // Put your code here:
+        Mux16(a=instruction, b=ALUOutput, sel=instruction[15], out=outMux0);
+        Not(in=instruction[15], out=notC);
+        //Not(in=instruction[5], out=notInst5);
+        Or(a=notC, b=instruction[5], out=loadA);
+        ARegister(in=outMux0, load=loadA, out=outRegisterA, out[0..14]=addressM); //  A Register
+         
+        And(a=instruction[15], b=instruction[4], out=intoD);
+        DRegister(in=ALUOutput, load=intoD, out=outRegisterD);  //  D Register
+        Mux16(a=outRegisterA, b=inM, sel=instruction[12], out=inputALU1);        
+        ALU(x=outRegisterD, y=inputALU1, zx=instruction[11], nx=instruction[10], zy=instruction[9], 
+            ny=instruction[8], f=instruction[7], no=instruction[6], out=ALUOutput, zr=zr, ng=ng);        
+        //putM
+        And16(a=ALUOutput, b=true, out=outM);         
+        // WriteM
+        And(a=instruction[3], b=instruction[15], out=writeM);
+        
+        DMux8Way(in=true, sel=instruction[0..2], a=false, b=JGT, c=JEQ, d=JGE, e=JLT, f=JNE, g=JLE, h=JMP);
+        Not(in=zr, out=notzr);
+        Not(in=ng, out=notng);
+        //JGT
+        And3Way(a=JGT,b=notzr,c=notng, out=jgtout);
+        // JEQ
+        And3Way(a=JEQ,b=zr,c=notng, out=jeqout);
+        // JGE
+        Or( a=notng, b=zr,  out=jumpgE);
+        And(a= JGE,  b=jumpgE, out=jgeout);        
+        // JLT
+        // Or(a=zr,b=ng,out=jumpNe);
+        And3Way(a=JLT, b=notzr,c=ng, out=jltout);
+        // JNE
+        Or(a=notzr,b=ng,out=jumpNe);
+        And(a=JNE, b=jumpNe, out=jneout);
+        // JLE out <= 0
+        Or(a=zr, b=ng, out=intojle);
+        And(a=intojle, b=JLE, out=jleout);
+        // JMP
+
+        Or8Way(a=false, b=jgtout, c=jeqout, d=jgeout, e=jltout, f=jneout, g=jleout, h=JMP, out=tmpLoad0);
+        And(a=tmpLoad0, b=instruction[15], out=tmpLoad1);
+        Not(in=tmpLoad1, out=inc);
+        And(a=tmpLoad1, b=true, out=load);
+        
+        PC(in=outRegisterA, load=load, inc=inc, reset=reset, out[0..14]=pc);
 }

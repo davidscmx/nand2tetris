@@ -1,0 +1,30 @@
+CHIP Jump {
+
+   IN  inJump[3],        
+        zr,               
+        ng;               
+                                        
+   OUT load, inc;
+
+    // Instruction code: IXXACCCCCCDDDJJJ
+    PARTS:
+        DMux8Way(in=true, sel=inJump, a=false, b=JGT, c=JEQ, d=JGE, e=JLT, f=JNE, g=JLE, h=JMP);
+        Not(in=zr, out=notzr);
+        Not(in=ng, out=notng);
+        //JGT
+        And3Way(a=JGT,b=notzr,c=notng, out=jgtout);
+        // JEQ
+        And3Way(a=JEQ,b=zr,c=notng, out=jeqout);
+        // JGE
+        And(a=JGE, b=notng, out=jgeout);        
+        // JLT
+        And3Way(a=JLT,b=notzr,c=ng, out=jltout);
+        // JNE
+        And(a=JNE, b=notzr, out=jneout);
+        // JLE out <= 0
+        Or(a=zr, b=ng, out=jleout);
+        // JMP
+        Or7Way(a=jgtout, b=jeqout, c=jeqout, d=jeqout, e=jltout, f=jneout, g=jleout, out=tmpLoad);
+        Not(in=tmpLoad, out=inc);
+        And(a=tmpLoad, b=true, out=load);
+}
