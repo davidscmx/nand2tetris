@@ -102,7 +102,7 @@ def get_c_inst(dest, comp, jump):
     alu_inst = c_inst_dic[comp]
 
     c_inst_str += alu_inst
-
+    print("dest ", dest)
     dest_inst = dest_inst_dic[dest]
 
     c_inst_str += dest_inst
@@ -130,7 +130,8 @@ def main():
     hack_file_str = asm_file_str.replace(".asm", ".hack")
     hack_file = open(hack_file_str, "w") 
     
-    for line in asm_lines:
+    for i, line in enumerate(asm_lines):
+        line = ''.join(line.split())
         if line.startswith("//"):
             continue
         
@@ -139,8 +140,9 @@ def main():
             address_in_bin = f'{address:016b}'
             hack_file.write(address_in_bin+"\n")
         if "=" in line or ";" in line:
+            print("i, line",i, line)
             dest, comp, jump = parse_c_inst(line)
-            print(dest, comp, jump)
+            
             c_inst = get_c_inst(dest, comp, jump)            
             hack_file.write(c_inst+"\n")
     hack_file.close()
